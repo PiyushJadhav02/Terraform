@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
 resource "aws_subnet" "project_subnet" {
   vpc_id  = var.vpc_id
   for_each=var.subnet_info

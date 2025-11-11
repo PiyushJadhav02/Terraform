@@ -22,6 +22,7 @@ data "aws_vpc" "project_vpc" {
     name="tag:Name"
     values = ["Project_vpc"]
   }
+  depends_on = [ module.vpc-module ]
 }
 
 module "subnet-pub-module" {
@@ -31,6 +32,7 @@ module "subnet-pub-module" {
         b=["11.0.1.0/24", "${var.region}b", "subnet-pub2"],
 }
     vpc_id = data.aws_vpc.project_vpc.id
+    depends_on = [ module.vpc-module ]
 }
 
 module "subnet-pvt-module" {
@@ -41,17 +43,26 @@ module "subnet-pvt-module" {
   }
 
   vpc_id = data.aws_vpc.project_vpc.id
+    depends_on = [ module.vpc-module ]
 }
 
+module "Iam-role" {
+    source = "./Modules/Iam"
+    depends_on = [ module.vpc-module ]
+}
+
+
 module "eks_cluster" {
-    source = "./Modules/eks"
-    eks_cluster_name = "project-eks-cluster"
-    role_arn = "arn:aws:iam::123456789012:role/EKSRole" # Replace with your IAM role ARN
-    subnet_ids = module.subnet-pvt-module.subnet_ids    
+  source = "./Modules/eks"
+  eks_cluster_name = "project-eks-cluster"
+  role_arn = module.Iam-role.eks_role_arn
+  subnet_ids = module.subnet-pvt-module.subnet_ids    
+  depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module, module.Iam-role ]
 }
 
 data "aws_route_table" "public_rt" {
     vpc_id = data.aws_vpc.project_vpc.id
+    depends_on = [ module.vpc-module ]
 }
 
 data "aws_subnet" "public_subnets" {
@@ -59,6 +70,7 @@ data "aws_subnet" "public_subnets" {
         name = "tag:Name"
         values = ["subnet-pub1"]
     }
+    depends_on = [ module.subnet-pub-module ]
 }
 
 module "nat_gateway" {
@@ -67,4 +79,5 @@ module "nat_gateway" {
     route_table_id = data.aws_route_table.public_rt.id
     vpc_id = data.aws_vpc.project_vpc.id
     vpc_name = "Project_vpc"
+    depends_on = [ module.subnet-pub-module ]
 }

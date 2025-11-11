@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
 resource "aws_eks_cluster" "project-cluster" {
     name=var.eks_cluster_name
     role_arn = var.role_arn
