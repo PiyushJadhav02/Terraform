@@ -11,3 +11,7 @@ variable "vpc_id" {
   description = "Provides VPC Id"
   type = string
 }
+
+variable "tags" {
+  type = map(string)
+}

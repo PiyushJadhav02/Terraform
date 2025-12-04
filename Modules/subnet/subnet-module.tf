@@ -4,8 +4,9 @@ resource "aws_subnet" "project_subnet" {
   cidr_block = each.value[0]
   availability_zone = each.value[1]
   
-    tags = {
+    tags = merge(
+      var.tags, {
         Name = each.value[2]
     }
-  
+  ) 
 }

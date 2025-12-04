@@ -33,6 +33,10 @@ module "subnet-pub-module" {
 }
     vpc_id = data.aws_vpc.project_vpc.id
     depends_on = [ module.vpc-module ]
+    tags = {
+      "kubernetes.io/cluster/project-eks-cluster"="shared"
+      "kubernetes.io/role/elb"       = "1"
+    }
 }
 
 module "subnet-pvt-module" {
@@ -44,6 +48,10 @@ module "subnet-pvt-module" {
 
   vpc_id = data.aws_vpc.project_vpc.id
     depends_on = [ module.vpc-module ]
+    tags = {
+      "kubernetes.io/cluster/project-eks-cluster"="shared"
+      "kubernetes.io/role/internal-elb"       = "1"
+    }
 }
 
 module "Iam-role" {
