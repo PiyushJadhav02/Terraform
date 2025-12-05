@@ -17,9 +17,3 @@ resource "aws_nat_gateway" "nat-gateway" {
     }
   
 }
-
-resource "aws_route" "nat-route" {
-  route_table_id         = var.route_table_id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.nat-gateway.id
-}
