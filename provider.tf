@@ -83,6 +83,7 @@ data "aws_route_table" "public_rt" {
     depends_on = [ module.vpc-module ]
 }
 
+
 data "aws_subnet" "public_subnets" {
     filter {
         name = "tag:Name"
@@ -106,6 +107,6 @@ module "pvt-route-table" {
   nat_gateway_id = module.nat_gateway.nat-gateway-id
   subnet_ids = module.subnet-pvt-module.subnet_ids
   igw-id = module.nat_gateway.igw-id
-  default-route-table-id = data.aws_route_table.public_rt.id
+  default-route-table-id = data.aws_vpc.project_vpc.main_route_table_id
   depends_on = [ module.nat_gateway, module.subnet-pvt-module ]
 }
