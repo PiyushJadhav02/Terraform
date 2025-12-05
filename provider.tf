@@ -63,7 +63,7 @@ module "security-group" {
   source = "./Modules/security-group"
   region = var.region
   vpc-id = data.aws_vpc.project_vpc.id
-  subnet_ids = concat( module.subnet-pub-module.subnet_ids, module.subnet-pvt-module.subnet_ids )
+  subnet_ids = concat(module.subnet-pvt-module.subnet_CIDR_block, module.subnet-pub-module.subnet_CIDR_block)
   depends_on = [ module.vpc-module ]
 }
 

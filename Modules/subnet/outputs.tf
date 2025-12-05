@@ -3,6 +3,10 @@ output "subnet_ids" {
   value       = [for s in aws_subnet.project_subnet : s.id]
 }
 
+output "subnet_CIDR_block" {
+  value = [for s in aws_subnet.project_subnet : s.cidr_block]
+}
+
 /*
 If you need the ids keyed by the original map keys (to preserve meaning like private/public),
 use the map form:
