@@ -59,6 +59,14 @@ module "Iam-role" {
     depends_on = [ module.vpc-module ]
 }
 
+module "security-group" {
+  source = "./Modules/security-group"
+  region = var.region
+  vpc-id = data.aws_vpc.project_vpc.id
+  subnet_ids = concat( module.subnet-pub-module.subnet_ids, module.subnet-pvt-module.subnet_ids )
+  depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module ]
+}
+
 
 module "eks_cluster" {
   source = "./Modules/eks"
@@ -66,6 +74,7 @@ module "eks_cluster" {
   role_arn = module.Iam-role.eks_role_arn
   eks_node_role_arn = module.Iam-role.eks_node_role_arn
   subnet_ids = module.subnet-pvt-module.subnet_ids    
+  security_group_ids = [module.security-group.eks-cluster-sg.id]
   depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module, module.Iam-role ]
 }
 
