@@ -27,16 +27,16 @@ data "aws_vpc" "project_vpc" {
 
 module "subnet-pub-module" {
   source = "./Modules/subnet"
-    subnet_info = {
-        a =["11.0.0.0/24", "${var.region}a", "subnet-pub1"],
-        b=["11.0.1.0/24", "${var.region}b", "subnet-pub2"],
-}
-    vpc_id = data.aws_vpc.project_vpc.id
-    depends_on = [ module.vpc-module ]
-    tags = {
-      "kubernetes.io/cluster/project-eks-cluster"="shared"
-      "kubernetes.io/role/elb"       = "1"
-    }
+  subnet_info = {
+    a =["11.0.0.0/24", "${var.region}a", "subnet-pub1"],
+    b=["11.0.1.0/24", "${var.region}b", "subnet-pub2"]
+  }
+  vpc_id = data.aws_vpc.project_vpc.id
+  depends_on = [ module.vpc-module ]
+  tags = {
+    "kubernetes.io/cluster/project-eks-cluster"="shared"
+    "kubernetes.io/role/elb"       = "1"
+  }
 }
 
 module "subnet-pvt-module" {
@@ -98,4 +98,12 @@ module "nat_gateway" {
     vpc_id = data.aws_vpc.project_vpc.id
     vpc_name = "Project_vpc"
     depends_on = [ module.subnet-pub-module ]
+}
+
+module "pvt-route-table" {
+  source = "./Modules/route-table"
+  vpc_id = data.aws_vpc.project_vpc.id
+  nat_gateway_id = module.nat_gateway.nat-gateway-id
+  subnet_ids = module.subnet-pvt-module.subnet_ids
+  depends_on = [ module.nat_gateway, module.subnet-pvt-module ]
 }
