@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
 resource "aws_security_group" "eks-cluster-sg" {
   name        = "eks-cluster-sg"
   description = "Security group for EKS cluster"
