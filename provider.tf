@@ -105,5 +105,7 @@ module "pvt-route-table" {
   vpc_id = data.aws_vpc.project_vpc.id
   nat_gateway_id = module.nat_gateway.nat-gateway-id
   subnet_ids = module.subnet-pvt-module.subnet_ids
+  igw-id = module.nat_gateway.igw-id
+  default-route-table-id = data.aws_route_table.public_rt.id
   depends_on = [ module.nat_gateway, module.subnet-pvt-module ]
 }

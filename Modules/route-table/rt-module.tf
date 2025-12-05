@@ -14,3 +14,9 @@ resource "aws_route_table_association" "nat_subnet_association" {
   subnet_id      = each.value
   route_table_id = aws_route_table.pvt-route-table.id
 }
+
+resource "aws_route" "default-route-igw" {
+  route_table_id = var.default-route-table-id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = var.igw-id
+}
