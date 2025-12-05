@@ -78,11 +78,6 @@ module "security-group" {
 #   depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module, module.Iam-role ]
 # }
 
-data "aws_route_table" "public_rt" {
-    vpc_id = data.aws_vpc.project_vpc.id
-    depends_on = [ module.vpc-module ]
-}
-
 
 data "aws_subnet" "public_subnets" {
     filter {
@@ -95,7 +90,7 @@ data "aws_subnet" "public_subnets" {
 module "nat_gateway" {
   source = "./Modules/nat-gateway"
   subnet_id = data.aws_subnet.public_subnets.id
-    route_table_id = data.aws_route_table.public_rt.id
+    route_table_id = data.aws_vpc.project_vpc.main_route_table_id
     vpc_id = data.aws_vpc.project_vpc.id
     vpc_name = "Project_vpc"
     depends_on = [ module.subnet-pub-module ]
