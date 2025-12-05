@@ -75,6 +75,7 @@ module "eks_cluster" {
   eks_node_role_arn = module.Iam-role.eks_node_role_arn
   subnet_ids = module.subnet-pvt-module.subnet_ids    
   security_group_ids = [module.security-group.security_group_ids]
+  log-types = ["api","scheduler","controllerManager","authenticator"]
   depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module, module.Iam-role ]
 }
 

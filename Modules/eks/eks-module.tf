@@ -6,7 +6,7 @@ resource "aws_eks_cluster" "project-cluster" {
         subnet_ids = var.subnet_ids
         security_group_ids = var.security_group_ids
     }
-    
+    enabled_cluster_log_types = var.log-types
 }
 
 resource "aws_eks_node_group" "eks_node_group" {

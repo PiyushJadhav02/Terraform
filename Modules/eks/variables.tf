@@ -23,3 +23,7 @@ variable "eks_node_role_arn" {
 variable "security_group_ids" {
   type = list(string)
 }
+
+variable "log-types" {
+  type = list(string)
+}
