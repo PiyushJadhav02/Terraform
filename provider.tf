@@ -68,15 +68,15 @@ module "security-group" {
 }
 
 
-# module "eks_cluster" {
-#   source = "./Modules/eks"
-#   eks_cluster_name = "project-eks-cluster"
-#   role_arn = module.Iam-role.eks_role_arn
-#   eks_node_role_arn = module.Iam-role.eks_node_role_arn
-#   subnet_ids = module.subnet-pvt-module.subnet_ids    
-#   security_group_ids = [module.security-group.security_group_ids]
-#   depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module, module.Iam-role ]
-# }
+module "eks_cluster" {
+  source = "./Modules/eks"
+  eks_cluster_name = "project-eks-cluster"
+  role_arn = module.Iam-role.eks_role_arn
+  eks_node_role_arn = module.Iam-role.eks_node_role_arn
+  subnet_ids = module.subnet-pvt-module.subnet_ids    
+  security_group_ids = [module.security-group.security_group_ids]
+  depends_on = [ module.vpc-module, module.subnet-pub-module, module.subnet-pvt-module, module.Iam-role ]
+}
 
 
 data "aws_subnet" "public_subnets" {
