@@ -10,6 +10,8 @@ resource "aws_instance" "ec2-instance" {
                 sudo apt install docker.io -y
                 sudo usermod -aG docker $USER
                 newgrp docker
+                curl -sO http://56.228.18.113:8080/jnlpJars/agent.jar
+                java -jar agent.jar -url http://56.228.18.113:8080/ -secret 6805549cf92f0d25722770c30735727d6428f2ee4ee4187de954527d6cc7f513 -name agent -webSocket -workDir "/home/ubuntu"
                 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
                 curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
                 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
@@ -64,8 +66,6 @@ resource "aws_instance" "ec2-instance" {
                 $home='/home/ubuntu/.minikube'
                 sudo sed -i 's/$root/$home/g' $HOME/.kube/config
                 sudo minikube start   --driver=none   --container-runtime=containerd   --memory=900   --force   --extra-config=kubelet.housekeeping-interval=10s   --extra-config=kubelet.image-gc-high-threshold=70   --extra-config=kubelet.image-gc-low-threshold=50
-                curl -sO http://56.228.18.113:8080/jnlpJars/agent.jar
-                java -jar agent.jar -url http://56.228.18.113:8080/ -secret 6805549cf92f0d25722770c30735727d6428f2ee4ee4187de954527d6cc7f513 -name agent -webSocket -workDir "/home/ubuntu"
                 EOF
         key_name = var.key_name
         associate_public_ip_address = var.associate_public_ip_address
