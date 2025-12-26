@@ -21,9 +21,9 @@ resource "aws_instance" "ec2-instance" {
                 wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
                 sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
                 CNI_VERSION="v1.5.1"
-                curl -LO https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz
+                curl -LO https://github.com/containernetworking/plugins/releases/download/$${CNI_VERSION}/cni-plugins-linux-amd64-$${CNI_VERSION}.tgz
                 sudo mkdir -p /opt/cni/bin
-                sudo tar -C /opt/cni/bin -xzvf cni-plugins-linux-amd64-${CNI_VERSION}.tgz
+                sudo tar -C /opt/cni/bin -xzvf cni-plugins-linux-amd64-$${CNI_VERSION}.tgz
                 sudo sed -i 's|bin_dir =.*|bin_dir = "/opt/cni/bin"|' /etc/containerd/config.toml
                 sudo systemctl restart containerd
                 sudo mkdir -p /etc/containerd
@@ -64,7 +64,6 @@ resource "aws_instance" "ec2-instance" {
                 $home='/home/ubuntu/.minikube'
                 sudo sed -i 's/$root/$home/g' $HOME/.kube/config
                 sudo minikube start   --driver=none   --container-runtime=containerd   --memory=900   --force   --extra-config=kubelet.housekeeping-interval=10s   --extra-config=kubelet.image-gc-high-threshold=70   --extra-config=kubelet.image-gc-low-threshold=50
-                "
                 EOF
         key_name = var.key_name
 }
