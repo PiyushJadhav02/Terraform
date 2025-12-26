@@ -13,3 +13,7 @@ variable "subnet_id" {
 variable "key_name" {
   type = string
 }
+
+variable "associate_public_ip_address" {
+  type = bool
+}

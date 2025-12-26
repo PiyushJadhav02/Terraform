@@ -117,4 +117,5 @@ module "ec2-instance" {
   subnet_id = module.subnet-pub-module.subnet_ids[0]
   key_name = data.aws_key_pair.existing_key.key_name
   depends_on = [ module.subnet-pub-module ]
+  associate_public_ip_address = true
 }

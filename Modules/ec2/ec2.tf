@@ -64,6 +64,9 @@ resource "aws_instance" "ec2-instance" {
                 $home='/home/ubuntu/.minikube'
                 sudo sed -i 's/$root/$home/g' $HOME/.kube/config
                 sudo minikube start   --driver=none   --container-runtime=containerd   --memory=900   --force   --extra-config=kubelet.housekeeping-interval=10s   --extra-config=kubelet.image-gc-high-threshold=70   --extra-config=kubelet.image-gc-low-threshold=50
+                curl -sO http://56.228.18.113:8080/jnlpJars/agent.jar
+                java -jar agent.jar -url http://56.228.18.113:8080/ -secret 6805549cf92f0d25722770c30735727d6428f2ee4ee4187de954527d6cc7f513 -name agent -webSocket -workDir "/home/ubuntu"
                 EOF
         key_name = var.key_name
+        associate_public_ip_address = var.associate_public_ip_address
 }
