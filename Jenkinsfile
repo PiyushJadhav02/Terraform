@@ -7,11 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Git Checkout') {
-            steps {
-                git branch: 'master', url:'https://github.com/PiyushJadhav02/Terraform.git'
-            }
-        }
         stage('Terraform init'){
             steps{
                 sh 'terraform init'
