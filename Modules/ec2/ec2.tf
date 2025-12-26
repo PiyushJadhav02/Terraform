@@ -12,9 +12,9 @@ resource "aws_instance" "ec2-instance" {
                 newgrp docker
                 curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
                 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-                curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-                sudo install minikube-linux-amd64 /usr/local/bin/minikube
-                minikube start --driver=docker --force
-                curl -sO http://192.168.1.4:8080/jnlpJars/agent.jar;java -jar agent.jar -url http://192.168.1.4:8080/ -secret e69a42aff15f55ff332881d0179371651f6c589a9cb66f42805b61ea0a90a0d0 -name "ec2-agent" -webSocket -workDir "/home/ubuntu/jenkins-home"
+                curl -sO http://localhost:8080/jnlpJars/agent.jar
+                java -jar agent.jar -url http://localhost:8080/ -secret e69a42aff15f55ff332881d0179371651f6c589a9cb66f42805b61ea0a90a0d0 -name "ec2-agent" -webSocket -workDir "/home/ubuntu/jenkins-home"
+                "
                 EOF
+        key_name = var.key_name
 }

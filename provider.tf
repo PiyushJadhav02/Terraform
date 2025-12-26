@@ -90,14 +90,12 @@ module "subnet-pub-module" {
 #     depends_on = [ module.subnet-pub-module ]
 # }
 
-# module "nat_gateway" {
-#   source = "./Modules/nat-gateway"
-#   subnet_id = data.aws_subnet.public_subnets.id
-#     route_table_id = data.aws_vpc.project_vpc.main_route_table_id
-#     vpc_id = data.aws_vpc.project_vpc.id
-#     vpc_name = "Project_vpc"
-#     depends_on = [ module.subnet-pub-module ]
-# }
+module "nat_gateway" {
+  source = "./Modules/nat-gateway"
+    vpc_id = data.aws_vpc.project_vpc.id
+    vpc_name = "Project_vpc"
+    depends_on = [ module.subnet-pub-module ]
+}
 
 # module "pvt-route-table" {
 #   source = "./Modules/route-table"
@@ -108,10 +106,15 @@ module "subnet-pub-module" {
 #   default-route-table-id = data.aws_vpc.project_vpc.main_route_table_id
 #   depends_on = [ module.nat_gateway, module.subnet-pvt-module ]
 # }
+data "aws_key_pair" "existing_key"{
+  key_name = "ubuntu"
+}
 
 module "ec2-instance" {
   source = "./Modules/ec2"
   instance_type = "t3.micro"
   ami_id = "ami-0fa91bc90632c73c9"
   subnet_id = module.subnet-pub-module.subnet_ids[0]
+  key_name = data.aws_key_pair.existing_key.key_name
+  depends_on = [ module.subnet-pub-module ]
 }
