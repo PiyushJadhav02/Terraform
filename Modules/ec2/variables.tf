@@ -17,3 +17,7 @@ variable "key_name" {
 variable "associate_public_ip_address" {
   type = bool
 }
+
+variable "security_group_ids" {
+  type = list(string)
+}

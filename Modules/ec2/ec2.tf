@@ -69,4 +69,5 @@ resource "aws_instance" "ec2-instance" {
                 EOF
         key_name = var.key_name
         associate_public_ip_address = var.associate_public_ip_address
+        security_groups = var.security_group_ids
 }

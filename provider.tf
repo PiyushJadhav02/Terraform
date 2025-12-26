@@ -61,13 +61,13 @@ module "subnet-pub-module" {
 #     depends_on = [ module.vpc-module ]
 # }
 
-# module "security-group" {
-#   source = "./Modules/security-group"
-#   region = var.region
-#   vpc-id = data.aws_vpc.project_vpc.id
-#   subnet_ids = concat(module.subnet-pvt-module.subnet_CIDR_block, module.subnet-pub-module.subnet_CIDR_block)
-#   depends_on = [ module.vpc-module ]
-# }
+module "security-group" {
+  source = "./Modules/security-group"
+  region = var.region
+  vpc-id = data.aws_vpc.project_vpc.id
+  subnet_ids = concat(module.subnet-pvt-module.subnet_CIDR_block, module.subnet-pub-module.subnet_CIDR_block)
+  depends_on = [ module.vpc-module ]
+}
 
 
 # module "eks_cluster" {
@@ -118,4 +118,5 @@ module "ec2-instance" {
   key_name = data.aws_key_pair.existing_key.key_name
   depends_on = [ module.subnet-pub-module ]
   associate_public_ip_address = true
+  security_group_ids = [module.security-group.security_group_ids]
 }
