@@ -18,6 +18,8 @@ wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/cri
 sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 CNI_VERSION="v1.5.1"
 curl -LO https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz
+mkdir -p /opt/cni/bin
+tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-${CNI_VERSION}.tgz
 
 ### JENKINS AGENT ###
 curl -sO http://13.51.64.135:8080/jnlpJars/agent.jar
