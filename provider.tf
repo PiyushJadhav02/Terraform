@@ -120,3 +120,11 @@ module "ec2-instance" {
   associate_public_ip_address = true
   security_group_ids = [module.security-group.security_group_ids]
 }
+
+module "default-route-table" {
+  source = "./Modules/default-route-table"
+  vpc_id = data.aws_vpc.project_vpc.id
+  igw_id = module.nat_gateway.igw_id
+  default_route_table_id = data.aws_vpc.project_vpc.main_route_table_id
+  depends_on = [ module.nat_gateway ]
+}
