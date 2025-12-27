@@ -21,7 +21,8 @@ curl -LO https://github.com/containernetworking/plugins/releases/download/${CNI_
 
 ### JENKINS AGENT ###
 curl -sO http://13.51.64.135:8080/jnlpJars/agent.jar
-java -jar agent.jar -url http://13.51.64.135:8080/ -secret 6805549cf92f0d25722770c30735727d6428f2ee4ee4187de954527d6cc7f513 -name agent -webSocket -workDir "/home/ubuntu"
+java -jar agent.jar -url http://13.51.64.135:8080/ -secret 6805549cf92f0d25722770c30735727d6428f2ee4ee4187de954527d6cc7f513 -name agent -webSocket -workDir "/home/ubuntu" > agent.log 2>&1 &
+echo "Jenkins agent started in background. Proceeding with other tasks..."
 
 usermod -aG docker ubuntu
 systemctl enable docker
