@@ -11,6 +11,14 @@ HOME_DIR="/home/ubuntu"
 ### BASIC SETUP ###
 apt update -y
 apt install -y openjdk-21-jre docker.io curl conntrack
+sudo apt update
+sudo apt install -y conntrack
+VERSION="v1.28.0"
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+CNI_VERSION="v1.5.1"
+curl -LO https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz
+
 
 usermod -aG docker ubuntu
 systemctl enable docker
@@ -29,13 +37,6 @@ install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 ### MINIKUBE ###
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 install minikube-linux-amd64 /usr/local/bin/minikube
-
-### START MINIKUBE ###
-sudo -u ubuntu minikube start \
-  --driver=none \
-  --container-runtime=containerd \
-  --memory=900 \
-  --force
 
 ### FIX PERMISSIONS ###
 mkdir -p $HOME_DIR/.kube $HOME_DIR/.minikube
@@ -72,3 +73,10 @@ systemctl daemon-reexec
 systemctl daemon-reload
 systemctl enable jenkins-agent
 systemctl start jenkins-agent
+
+### START MINIKUBE ###
+sudo -u ubuntu minikube start \
+  --driver=none \
+  --container-runtime=containerd \
+  --memory=900 \
+  --force
