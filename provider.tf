@@ -114,6 +114,7 @@ module "ec2-instance" {
   source = "./Modules/ec2"
   instance_type = "t3.micro"
   ami_id = "ami-0fa91bc90632c73c9"
+  key_name = "ubuntu_aws"
   subnet_id = module.subnet-pub-module.subnet_ids[0]
   depends_on = [ module.subnet-pub-module ]
   associate_public_ip_address = true
