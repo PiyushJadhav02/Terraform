@@ -107,7 +107,7 @@ module "nat_gateway" {
 #   depends_on = [ module.nat_gateway, module.subnet-pvt-module ]
 # }
 data "aws_key_pair" "existing_key"{
-  key_name = "ubuntu"
+  key_name = "ubuntu_aws"
 }
 
 module "ec2-instance" {
