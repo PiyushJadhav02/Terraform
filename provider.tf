@@ -126,7 +126,6 @@ module "ec2-instance" {
 }
 
 module "default-route-table" {
-  region = var.region
   source = "./Modules/default-route-table"
   vpc_id = data.aws_vpc.project_vpc.id
   igw_id = module.nat_gateway.igw_id
