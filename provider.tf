@@ -15,6 +15,7 @@ module "vpc-module" {
     source = "./Modules/vpc"
     cidr_block = "11.0.0.0/16"
     vpc_name = "Project_vpc"
+    region= var.region
 }
 
 data "aws_vpc" "project_vpc" {
