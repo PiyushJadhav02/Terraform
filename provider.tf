@@ -114,7 +114,6 @@ module "nat_gateway" {
 #}
 
 module "ec2-instance" {
-  region = var.region
   source = "./Modules/ec2"
   instance_type = "t3.micro"
   ami_id = "ami-0fa91bc90632c73c9"
