@@ -27,6 +27,13 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
+      - name: Aws Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          region: us-east-1
+
       # Runs a set of commands using the runners shell
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
