@@ -27,6 +27,7 @@ data "aws_vpc" "project_vpc" {
 }
 
 module "subnet-pub-module" {
+  region = var.region
   source = "./Modules/subnet"
   subnet_info = {
     a =["11.0.0.0/24", "${var.region}a", "subnet-pub1"],
@@ -92,6 +93,7 @@ module "security-group" {
 # }
 
 module "nat_gateway" {
+  region = var.region
   source = "./Modules/nat-gateway"
     vpc_id = data.aws_vpc.project_vpc.id
     vpc_name = "Project_vpc"
@@ -112,6 +114,7 @@ module "nat_gateway" {
 #}
 
 module "ec2-instance" {
+  region = var.region
   source = "./Modules/ec2"
   instance_type = "t3.micro"
   ami_id = "ami-0fa91bc90632c73c9"
@@ -123,6 +126,7 @@ module "ec2-instance" {
 }
 
 module "default-route-table" {
+  region = var.region
   source = "./Modules/default-route-table"
   vpc_id = data.aws_vpc.project_vpc.id
   igw_id = module.nat_gateway.igw_id
