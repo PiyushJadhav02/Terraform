@@ -40,6 +40,11 @@ jobs:
         with:
           terraform_version: latest
 
+  Apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
       - name: Terraform Init
         run: terraform init
 
@@ -48,3 +53,17 @@ jobs:
 
       - name: Terraform apply
         run: terraform apply -auto-approve
+
+  Destroy:
+    runs-on: ubuntu-latest
+    needs: Apply
+    if: github.event.inputs.destory == 'true'
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Destroy
+        run: terraform destroy
