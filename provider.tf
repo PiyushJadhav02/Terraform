@@ -106,16 +106,15 @@ module "nat_gateway" {
 #   default-route-table-id = data.aws_vpc.project_vpc.main_route_table_id
 #   depends_on = [ module.nat_gateway, module.subnet-pvt-module ]
 # }
-data "aws_key_pair" "existing_key"{
-  key_name = "ubuntu_aws"
-}
+# data "aws_key_pair" "existing_key"{
+#  key_name = "ubuntu_aws"
+#}
 
 module "ec2-instance" {
   source = "./Modules/ec2"
   instance_type = "t3.micro"
   ami_id = "ami-0fa91bc90632c73c9"
   subnet_id = module.subnet-pub-module.subnet_ids[0]
-  key_name = data.aws_key_pair.existing_key.key_name
   depends_on = [ module.subnet-pub-module ]
   associate_public_ip_address = true
   security_group_ids = [module.security-group.security_group_ids]
